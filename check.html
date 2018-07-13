@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CheckSplitter</title>
+  <link rel="stylesheet" type="text/css" href="css/estilocheck.css">
+</head>
+<body>
+
+  <h2>CheckSplitter
+  <!-- <button type="button">Click Me!</button> -->
+  <br /></h2>
+    <!-- HACER UNA LISTA PARA LOS NOMBRES -->
+    Producto:             Cantidad:           Precio Total:<br>
+    <input type="text" name="firstname" value="" size="15" id="newitem">
+    <input type="text" name="firstname" value="" size="5" id="newamount">
+    <input type="text" name="firstname" value="" size="10" id="newprice">
+
+    <input type="submit" value="Agregar" onclick="additem()">
+
+    <!-- <input type="text" name="firstname" value="8" size="5">
+    <label class="switch"><input type="checkbox" checked><span class="slider round"></span></label>
+    Tax
+    <text title="tax">0.00</text>
+    <br />
+    <input type="text" name="firstname" value="10" size="5">
+    <label class="switch"><input type="checkbox" checked><span class="slider round"></span></label>
+    Tip
+    <text title="tip">0.00</text> -->
+    <!-- <br /> -->
+
+    <ul id="items"></ul>
+    <br>Neto-Total</br>
+    <text id="netototal">0.00</text>
+    <br />
+    <br>ICO</br>
+    <text id="ico">0.00</text>
+    <br />
+    <br>Sub-Total</br>
+    <text id="subtotal">0.00</text>
+    <br />
+    <br>Propina</br>
+    <text id="propina">0.00</text>
+    <br />
+    <br>Total</br>
+    <text id="total">0.00</text>
+    <br />
+    <br />
+
+    <button type="button" onclick="gotoPeople()">Next</button>
+
+
+
+</body>
+<script type="text/javascript" src="js/func2.js"></script>
+</html>
