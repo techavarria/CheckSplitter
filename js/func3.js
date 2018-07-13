@@ -125,6 +125,9 @@ function checkboxlist() {
       }
     }
   }
+  localStorage.setItem('localDirPer', JSON.stringify(DirPer));
+  location.replace('item_per_person.html');
+
 }
 
 
