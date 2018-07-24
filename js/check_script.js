@@ -5,6 +5,45 @@ var itemDicJ = {};
 var localPeople = localStorage.getItem('localPeople');
 console.log('localPeople: ', JSON.parse(localPeople));
 
+if (localStorage.getItem("localItems") === null) {
+    var itemDicJ = {};
+} else {
+    var itemDicJ = JSON.parse(localStorage.getItem('localItems'));
+    setTable();
+    setPrices();
+}
+
+
+
+function setTable(){
+
+    for (var i = 0; i < Object.keys(itemDicJ).length; i++) {
+        i1 = Object.keys(itemDicJ)[i];
+        i2 = Object.values(itemDicJ)[i][0];
+        i3 = Object.values(itemDicJ)[i][1];
+
+
+        d1 = document.getElementById('items');
+        html_code = `
+        <tr id = ${"item_" + i1}>
+          <td>${i1}</td>
+          <td>${i2}</td>
+          <td>${i3}</td>
+          <td>
+                  <button style="font-size:24px" onclick = "eliminar(this)" id= ${"btn_" + i1}><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+        `
+        d1.insertAdjacentHTML('beforeend', html_code);
+    }
+
+
+
+
+}
+
+
+
 function additem(){                                                                 // check
   i1 = document.getElementById('newitem').value;
   i2 = parseInt(document.getElementById('newamount').value);
@@ -28,12 +67,19 @@ function additem(){                                                             
   document.getElementById('newamount').value = "";
   document.getElementById('newprice').value = "";
   setPrices();
+  localStorage.setItem('localItems', JSON.stringify(itemDicJ));
 }
 
 
-function gotoPeople(){                                                            // check
+function gotoPeople(){
   localStorage.setItem('localItems', JSON.stringify(itemDicJ));
   location.replace('people2item.html');
+  if (localStorage.getItem("localItemDiccJ") === null) {
+
+  } else {
+      localStorage.setItem('localItemDiccJ', JSON.stringify({}));
+
+  }
 }
 
 function eliminar(elem){
@@ -44,6 +90,7 @@ function eliminar(elem){
     var child = document.getElementById(item_id);
     parent.removeChild(child);
     setPrices();
+    localStorage.setItem('localItems', JSON.stringify(itemDicJ));
 }
 
 

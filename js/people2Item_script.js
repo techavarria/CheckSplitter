@@ -1,37 +1,43 @@
 var subtotal = 0;
 var localItems = JSON.parse(localStorage.getItem('localItems'));
 var localPeople = JSON.parse(localStorage.getItem('localPeople'));
-var ItemDiccJ = {};
+localStorage.setItem('localDirPer', JSON.stringify({}));
 
+if (localStorage.getItem("localItemDiccJ") === null) {
+    var ItemDiccJ = {};
+    startItemDiccJ();
+} else {
+    var ItemDiccJ = JSON.parse(localStorage.getItem('localItemDiccJ'));
 
-
-
-for (i = 0; i < Object.keys(localItems).length; i++) {
-    if (localItems[Object.keys(localItems)[i]][0] > 1) {
-        for (j = 1; j < localItems[Object.keys(localItems)[i]][0] + 1; j++) {
-            nameItem = Object.keys(localItems)[i];
-            ItemDiccJ[nameItem.concat(j)] = localItems[Object.keys(localItems)[i]][1] / localItems[Object.keys(localItems)[i]][0];
-        }
-    } else {
-        ItemDiccJ[Object.keys(localItems)[i]] = localItems[Object.keys(localItems)[i]][1];
-    }
 }
-
-
-
-
-for (i = 0; i < Object.keys(ItemDiccJ).length; i++) {
-    pricevec = (ItemDiccJ[Object.keys(ItemDiccJ)[i]]);
-    ItemDiccJ[Object.keys(ItemDiccJ)[i]] = {
-        "valor": pricevec,
-        "people": {}
-    };
-}
-
-
 
 CheckPeople();
 CheckItems();
+actualizarChecks();
+
+function startItemDiccJ(){
+    for (i = 0; i < Object.keys(localItems).length; i++) {
+        if (localItems[Object.keys(localItems)[i]][0] > 1) {
+            for (j = 1; j < localItems[Object.keys(localItems)[i]][0] + 1; j++) {
+                nameItem = Object.keys(localItems)[i];
+                ItemDiccJ[nameItem.concat(j)] = localItems[Object.keys(localItems)[i]][1] / localItems[Object.keys(localItems)[i]][0];
+            }
+        } else {
+            ItemDiccJ[Object.keys(localItems)[i]] = localItems[Object.keys(localItems)[i]][1];
+        }
+    }
+
+
+
+
+    for (i = 0; i < Object.keys(ItemDiccJ).length; i++) {
+        pricevec = (ItemDiccJ[Object.keys(ItemDiccJ)[i]]);
+        ItemDiccJ[Object.keys(ItemDiccJ)[i]] = {
+            "valor": pricevec,
+            "people": {}
+        };
+    }
+}
 
 function CheckPeople() {
     d1 = document.getElementById('people');
@@ -70,29 +76,35 @@ function peopleChecked(element) {
     }
 }
 
-var Porcentaje = 0
-$(document).ready(function() {
-    $("input").change(function() {
-        var idChanged = event.target.id;
-        var select = document.getElementById("items");
-        var Producto = select.options[select.selectedIndex].value;
+function actualizarChecks(){
+    x = document.getElementsByClassName("form-check-input")
+    y = document.getElementsByClassName("texts")
+    for (var i = 0; i < x.length; i++) {
+        x[i].checked = false;
+    }
+    for (var i = 0; i < y.length; i++) {
+        y[i].disabled = true;
+        y[i].value = null;
+    }
 
-        if (idChanged.indexOf("Text") >= 0) {
-            var Porcentaje = document.getElementById(idChanged).value;
-            // console.log(Porcentaje);
-            numero_persona = idChanged.split("_").slice(-1);
-            id_persona = "idCheck_" + numero_persona;
-            Persona = document.getElementById(id_persona).name;
-            ItemDiccJ[Producto]["people"][Persona] = Porcentaje;
-        } else {
-            Persona = document.getElementById(idChanged).name;
-            // console.log(Persona);
-        }
-    });
-});
+    select = document.getElementById("items");
+    Producto = select.options[select.selectedIndex].value;
+    dicAux = ItemDiccJ[Producto]["people"];
+    peop = Object.keys(dicAux);
+    porcen = Object.values(dicAux);
+    for (var i = 0; i < peop.length; i++) {
+        console.log(peop[i])
+        document.getElementsByName(peop[i])[0].checked = true;
+        theID = document.getElementsByName(peop[i])[0].id;
 
+        numero_persona = theID.split("_").slice(-1);
+        id_porc = "idText_" + numero_persona;
+        document.getElementById(id_porc).value = porcen[i];
+        document.getElementById(id_porc).disabled = false;
 
+    }
 
+}
 
 function checkboxlist() {
     DirPer = localPeople;
@@ -113,8 +125,9 @@ function checkboxlist() {
                     // agreguelo a localPeople
 
                     // DirPer["and"] = {"items":{"it1":2}, "total":0};
+                    // AuxDic[nameProduct] = (PercPorProd * ProdPrice * 1.1) / 100;
+                    AuxDic[nameProduct] = {"valor":(PercPorProd * ProdPrice * 1.1) / 100, "porcentaje": PercPorProd}
 
-                    AuxDic[nameProduct] = (PercPorProd * ProdPrice * 1.1) / 100;
                     // dicjson = {NomProd:(PercPorProd*ProdPrice)/100};
                     DirPer[namePeople] = {
                         "items": AuxDic,
@@ -126,48 +139,28 @@ function checkboxlist() {
     }
     localStorage.setItem('localDirPer', JSON.stringify(DirPer));
     location.replace('item_per_person.html');
-
+    localStorage.setItem('localItemDiccJ', JSON.stringify(ItemDiccJ));
 }
 
 
+$(document).ready(function() {
+    $("input").change(function() {
+        var idChanged = event.target.id;
+        var select = document.getElementById("items");
+        var Producto = select.options[select.selectedIndex].value;
 
-
-$(".form-control.one").change(function() {
-    x = document.getElementsByClassName("form-check-input")
-    y = document.getElementsByClassName("texts")
-    for (var i = 0; i < x.length; i++) {
-        x[i].checked = false;
-    }
-    for (var i = 0; i < y.length; i++) {
-        y[i].disabled = true;
-        y[i].value = null;
-    }
-
-    var select = document.getElementById("items");
-    var Producto = select.options[select.selectedIndex].value;
-
-    dicAux = ItemDiccJ[Producto]["people"];
-    peop = Object.keys(dicAux);
-    porcen = Object.values(dicAux);
-    for (var i = 0; i < peop.length; i++) {
-        document.getElementsByName(peop[i])[0].checked = true;
-        theID = document.getElementsByName(peop[i])[0].id;
-
-        numero_persona = theID.split("_").slice(-1);
-        id_porc = "idText_" + numero_persona;
-        document.getElementById(id_porc).value = porcen[i];
-        document.getElementById(id_porc).disabled = false;
-
-    }
-
+        if (idChanged.indexOf("Text") >= 0) {
+            var Porcentaje = document.getElementById(idChanged).value;
+            numero_persona = idChanged.split("_").slice(-1);
+            id_persona = "idCheck_" + numero_persona;
+            Persona = document.getElementById(id_persona).name;
+            ItemDiccJ[Producto]["people"][Persona] = Porcentaje;
+        } else {
+            Persona = document.getElementById(idChanged).name;
+        }
+    });
 });
 
-
-
-function setPercent() {
-    for (i = 1; i < Object.keys(localPeople).length; i++) {
-
-    }
-    document.getElementById("checkbox").checked = false;
-}
-//
+$(".form-control.one").change(function() {
+    actualizarChecks();
+});
