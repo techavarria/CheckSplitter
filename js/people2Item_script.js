@@ -135,12 +135,12 @@ function checkboxlist() {
 $(".form-control.one").change(function() {
     x = document.getElementsByClassName("form-check-input")
     y = document.getElementsByClassName("texts")
-    for (var  i = 0;  i  <  x.length;  i++) {        
-        x[i].checked  = false;    
+    for (var i = 0; i < x.length; i++) {
+        x[i].checked = false;
     }
-    for (var  i = 0;  i  <  y.length;  i++) {        
+    for (var i = 0; i < y.length; i++) {
         y[i].disabled = true;
-        y[i].value = null;    
+        y[i].value = null;
     }
 
     var select = document.getElementById("items");
@@ -149,7 +149,7 @@ $(".form-control.one").change(function() {
     dicAux = ItemDiccJ[Producto]["people"];
     peop = Object.keys(dicAux);
     porcen = Object.values(dicAux);
-    for (var  i = 0;  i  <  peop.length;  i++) {
+    for (var i = 0; i < peop.length; i++) {
         document.getElementsByName(peop[i])[0].checked = true;
         theID = document.getElementsByName(peop[i])[0].id;
 
