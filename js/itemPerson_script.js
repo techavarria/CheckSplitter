@@ -1,5 +1,4 @@
 DirPer = localStorage.getItem('localDirPer');
-DirPer = localStorage.getItem('localDirPer');
 
 
 DirP = JSON.parse(DirPer)
