@@ -1,16 +1,10 @@
 var subtotal = 0;
-var localItems = localStorage.getItem('localItems');
-var localPeople = localStorage.getItem('localPeople');
-
-localItems = JSON.parse(localItems)
-localPeople = JSON.parse(localPeople)
-// console.log('localItems: ', localItems);
-// console.log('localPeople: ', localPeople);
-
-
-
-
+var localItems = JSON.parse(localStorage.getItem('localItems'));
+var localPeople = JSON.parse(localStorage.getItem('localPeople'));
 var ItemDiccJ = {};
+
+
+
 
 for (i = 0; i < Object.keys(localItems).length; i++) {
     if (localItems[Object.keys(localItems)[i]][0] > 1) {
@@ -24,6 +18,8 @@ for (i = 0; i < Object.keys(localItems).length; i++) {
 }
 
 
+
+
 for (i = 0; i < Object.keys(ItemDiccJ).length; i++) {
     pricevec = (ItemDiccJ[Object.keys(ItemDiccJ)[i]]);
     ItemDiccJ[Object.keys(ItemDiccJ)[i]] = {
@@ -31,8 +27,6 @@ for (i = 0; i < Object.keys(ItemDiccJ).length; i++) {
         "people": {}
     };
 }
-
-
 
 
 
@@ -44,9 +38,14 @@ function CheckPeople() {
     for (i = 0; i < Object.keys(localPeople).length; i++) {
         namePeople = Object.keys(localPeople)[i];
         html_code = `
-    <input type="checkbox" class="checks" id="idCheck_${i}" onchange="peopleChecked(this)" name="${namePeople}"> ${namePeople}
-    <input type="text" name="porcentaje" class="texts" value="" id="idText_${i}" size="4" disabled>
-    <br>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <input type="checkbox" class="form-check-input" id="idCheck_${i}" onchange="peopleChecked(this)" name="${namePeople}">
+            <span class="input-group-text" id="inputGroup-sizing-default">${namePeople}</span>
+        </div>
+        <input type="text" name="porcentaje" class="form-control texts" value="" id="idText_${i}" size="4" disabled>
+    </div>
     `;
         d1.insertAdjacentHTML('beforeend', html_code);
     }
@@ -133,8 +132,8 @@ function checkboxlist() {
 
 
 
-$(".thelist").change(function() {
-    x = document.getElementsByClassName("checks")
+$(".form-control.one").change(function() {
+    x = document.getElementsByClassName("form-check-input")
     y = document.getElementsByClassName("texts")
     for (var  i = 0;  i  <  x.length;  i++) {        
         x[i].checked  = false;    
@@ -143,6 +142,7 @@ $(".thelist").change(function() {
         y[i].disabled = true;
         y[i].value = null;    
     }
+
     var select = document.getElementById("items");
     var Producto = select.options[select.selectedIndex].value;
 
