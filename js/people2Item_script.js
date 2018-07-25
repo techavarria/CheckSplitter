@@ -1,10 +1,12 @@
+// VARIABLES
 var subtotal = 0;
 var localItems = JSON.parse(localStorage.getItem('localItems'));
 var localPeople = JSON.parse(localStorage.getItem('localPeople'));
-
 localStorage.setItem('localDirPer', JSON.stringify({}));
-
 var ItemDiccJ = {};
+
+
+// FUNCIONES
 startItemDiccJ();
 CheckPeople();
 CheckItems();
@@ -21,9 +23,6 @@ function startItemDiccJ(){
             ItemDiccJ[Object.keys(localItems)[i]] = localItems[Object.keys(localItems)[i]][1];
         }
     }
-
-
-
 
     for (i = 0; i < Object.keys(ItemDiccJ).length; i++) {
         pricevec = (ItemDiccJ[Object.keys(ItemDiccJ)[i]]);
@@ -80,7 +79,6 @@ function actualizarChecks(){
         y[i].disabled = true;
         y[i].value = null;
     }
-
     select = document.getElementById("items");
     Producto = select.options[select.selectedIndex].value;
     dicAux = ItemDiccJ[Producto]["people"];
@@ -95,9 +93,7 @@ function actualizarChecks(){
         id_porc = "idText_" + numero_persona;
         document.getElementById(id_porc).value = porcen[i];
         document.getElementById(id_porc).disabled = false;
-
     }
-
 }
 
 function checkboxlist() {
@@ -107,22 +103,13 @@ function checkboxlist() {
         AuxDic = {};
         for (j = 0; j < Object.keys(ItemDiccJ).length; j++) { //Por items
             nameProduct = Object.keys(ItemDiccJ)[j];
-            // PerPorProd =
             ProdPrice = Object.values(ItemDiccJ)[j]["valor"];
             PeoDic = Object.values(ItemDiccJ)[j]["people"];
-
             for (k = 0; k < Object.keys(PeoDic).length; k++) { //Por personas de ese item
                 NomPorProd = Object.keys(PeoDic)[k];
                 PercPorProd = Object.values(PeoDic)[k];
-                // if es igual a namePeople
                 if (namePeople == NomPorProd) {
-                    // agreguelo a localPeople
-
-                    // DirPer["and"] = {"items":{"it1":2}, "total":0};
-                    // AuxDic[nameProduct] = (PercPorProd * ProdPrice * 1.1) / 100;
                     AuxDic[nameProduct] = {"valor":(PercPorProd * ProdPrice * 1.1) / 100, "porcentaje": PercPorProd}
-
-                    // dicjson = {NomProd:(PercPorProd*ProdPrice)/100};
                     DirPer[namePeople] = {
                         "items": AuxDic,
                         "total": 0
@@ -140,12 +127,13 @@ function back(){
     location.replace('check.html');
 }
 
+
+// JQUERY
 $(document).ready(function() {
     $("input").change(function() {
         var idChanged = event.target.id;
         var select = document.getElementById("items");
         var Producto = select.options[select.selectedIndex].value;
-
         if (idChanged.indexOf("Text") >= 0) {
             var Porcentaje = document.getElementById(idChanged).value;
             numero_persona = idChanged.split("_").slice(-1);

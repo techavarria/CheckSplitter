@@ -1,3 +1,4 @@
+// VARIABLES
 var subtotal = 0;
 
 if (localStorage.getItem("localPeople") === null) {
@@ -7,13 +8,10 @@ if (localStorage.getItem("localPeople") === null) {
     setList();
 }
 
-
-
+// FUNCIONES
 function setList(){
-
     for (var i = 0; i < Object.keys(peopleDicJ).length; i++) {
         p1 = Object.keys(peopleDicJ)[i];
-
         btn_name = "btn" + p1;
         list_name ="list" + p1;
         d1 = document.getElementById('lista');
@@ -24,17 +22,12 @@ function setList(){
                 ${p1}
             </p>
         </li>
-
         `
         d1.insertAdjacentHTML('beforeend', html_code);
     }
-
 }
 
-
-
-
-function addpeople(){                                                            // index
+function addpeople(){
     p1 = document.getElementById('newguy').value;
     document.getElementById('newguy').value = "";
     btn_name = "btn" + p1;
@@ -47,7 +40,6 @@ function addpeople(){                                                           
             ${p1}
         </p>
     </li>
-
     `
     d1.insertAdjacentHTML('beforeend', html_code);
     updateLocalPeople();
@@ -59,16 +51,10 @@ function eliminar(elem){
     var parent = document.getElementById("lista");
     var child = document.getElementById(list_id);
     parent.removeChild(child);
-    console.log('llego9')
-    console.log(peopleDicJ)
-
     updateLocalPeople();
-
 }
 
-
-
-function funcfoto(){                                                              // index
+function funcfoto(){
     alert('agregar foto');
 }
 
@@ -76,8 +62,6 @@ function gotoCheck(){
     updateLocalPeople();
     location.replace('check.html');
 }
-
-
 
 function updateLocalPeople(){
     lista = document.querySelector('#lista');
@@ -95,8 +79,7 @@ function updateLocalPeople(){
     localStorage.setItem('localPeople', JSON.stringify(peopleDicJ));
 }
 
-
-
+// JQUERY
 $(document).ready(function() {
     $("#newguy").change(function() {
         addpeople();

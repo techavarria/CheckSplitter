@@ -1,10 +1,8 @@
+// VARIABLES
 DirPer = localStorage.getItem('localDirPer');
-
-
 DirP = JSON.parse(DirPer)
 
-
-
+// FUNCIONES
 listBoxPersonas();
 UpdateTable();
 
@@ -17,19 +15,12 @@ function listBoxPersonas() {
     }
 }
 
-
 function UpdateTable() {
     d1 = document.getElementById('tabla');
-
-    // d1.parentNode.removeChild(d1);
-
     var select = document.getElementById("id_personas");
     var Producto = select.options[select.selectedIndex].value;
-
     dicAux = DirP[Producto]["items"];
     itm = Object.keys(dicAux);
-    // pric = Object.values(dicAux);
-
     html_code = '';
     for (var  i = 0;  i  < itm.length;  i++) {
         pric = Object.values(dicAux)[i].valor;
@@ -42,7 +33,6 @@ function UpdateTable() {
       <td>${perc}</td>
     </tr>
     `;
-        // d1.insertAdjacentHTML('beforeend', html_code);
     }
     d1.innerHTML = html_code;
     html_code = '';
@@ -52,19 +42,9 @@ function back(){
     location.replace("people2item.html")
 }
 
+// JQUERY
 $("#id_personas").change(function() {
-
     var select = document.getElementById("id_personas");
     var Producto = select.options[select.selectedIndex].value;
     UpdateTable();
-
-
 });
-
-
-
-
-
-
-
-//

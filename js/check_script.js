@@ -1,7 +1,6 @@
+// VARIABLES
 var subtotal = 0;
 var itemDicJ = {};
-
-
 var localPeople = localStorage.getItem('localPeople');
 
 if (localStorage.getItem("localItems") === null) {
@@ -12,16 +11,12 @@ if (localStorage.getItem("localItems") === null) {
     setPrices();
 }
 
-
-
+// FUNCIONES
 function setTable(){
-
     for (var i = 0; i < Object.keys(itemDicJ).length; i++) {
         i1 = Object.keys(itemDicJ)[i];
         i2 = Object.values(itemDicJ)[i][0];
         i3 = Object.values(itemDicJ)[i][1];
-
-
         d1 = document.getElementById('items');
         html_code = `
         <tr id = ${"item_" + i1}>
@@ -35,19 +30,13 @@ function setTable(){
         `
         d1.insertAdjacentHTML('beforeend', html_code);
     }
-
-
-
-
 }
 
-function additem(){                                                                 // check
+function additem(){
   i1 = document.getElementById('newitem').value;
   i2 = parseInt(document.getElementById('newamount').value);
   i3 = parseInt(document.getElementById('newprice').value);
-
   itemDicJ[i1] = [i2, i3];
-
   d1 = document.getElementById('items');
   html_code = `
   <tr id = ${"item_" + i1}>
@@ -70,7 +59,6 @@ function additem(){                                                             
 function gotoPeople(){
   localStorage.setItem('localItems', JSON.stringify(itemDicJ));
   location.replace('people2item.html');
-
 }
 
 function eliminar(elem){
@@ -93,12 +81,10 @@ function setPrices(){
         item = parent.children[i].children[0].innerHTML
         cantidad = parseInt(parent.children[i].children[1].innerHTML);
         precio = parseInt(parent.children[i].children[2].innerHTML);
-
         itemDicJ[item] = [cantidad, precio];
         subtotal = subtotal + precio
     }
     console.log(subtotal)
-
     ico = subtotal * 0.08;
     netototal = subtotal - ico;
     propina = netototal * 0.1;
@@ -108,7 +94,6 @@ function setPrices(){
     document.getElementById('subtotal').value = subtotal;
     document.getElementById('propina').value = propina;
     document.getElementById('total').value = total;
-
 }
 
 function back(){
