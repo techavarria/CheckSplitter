@@ -1,16 +1,11 @@
 var subtotal = 0;
 var localItems = JSON.parse(localStorage.getItem('localItems'));
 var localPeople = JSON.parse(localStorage.getItem('localPeople'));
+
 localStorage.setItem('localDirPer', JSON.stringify({}));
 
-if (localStorage.getItem("localItemDiccJ") === null) {
-    var ItemDiccJ = {};
-    startItemDiccJ();
-} else {
-    var ItemDiccJ = JSON.parse(localStorage.getItem('localItemDiccJ'));
-
-}
-
+var ItemDiccJ = {};
+startItemDiccJ();
 CheckPeople();
 CheckItems();
 actualizarChecks();
@@ -44,15 +39,14 @@ function CheckPeople() {
     for (i = 0; i < Object.keys(localPeople).length; i++) {
         namePeople = Object.keys(localPeople)[i];
         html_code = `
-
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <input type="checkbox" class="form-check-input" id="idCheck_${i}" onchange="peopleChecked(this)" name="${namePeople}">
-            <span class="input-group-text" id="inputGroup-sizing-default">${namePeople}</span>
-        </div>
-        <input type="text" name="porcentaje" class="form-control texts" value="" id="idText_${i}" size="4" disabled>
-    </div>
-    `;
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <input type="checkbox" class="form-check-input" id="idCheck_${i}" onchange="peopleChecked(this)" name="${namePeople}">
+                    <span class="input-group-text" id="inputGroup-sizing-default">${namePeople}</span>
+                </div>
+                <input type="text" name="porcentaje" class="form-control texts" value="" id="idText_${i}" size="4" disabled>
+            </div>
+            `;
         d1.insertAdjacentHTML('beforeend', html_code);
     }
 }
@@ -142,6 +136,9 @@ function checkboxlist() {
     localStorage.setItem('localItemDiccJ', JSON.stringify(ItemDiccJ));
 }
 
+function back(){
+    location.replace('check.html');
+}
 
 $(document).ready(function() {
     $("input").change(function() {

@@ -48,7 +48,9 @@ function UpdateTable() {
     html_code = '';
 }
 
-
+function back(){
+    location.replace("people2item.html")
+}
 
 $("#id_personas").change(function() {
 

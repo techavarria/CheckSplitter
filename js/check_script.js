@@ -3,7 +3,6 @@ var itemDicJ = {};
 
 
 var localPeople = localStorage.getItem('localPeople');
-console.log('localPeople: ', JSON.parse(localPeople));
 
 if (localStorage.getItem("localItems") === null) {
     var itemDicJ = {};
@@ -42,8 +41,6 @@ function setTable(){
 
 }
 
-
-
 function additem(){                                                                 // check
   i1 = document.getElementById('newitem').value;
   i2 = parseInt(document.getElementById('newamount').value);
@@ -70,16 +67,10 @@ function additem(){                                                             
   localStorage.setItem('localItems', JSON.stringify(itemDicJ));
 }
 
-
 function gotoPeople(){
   localStorage.setItem('localItems', JSON.stringify(itemDicJ));
   location.replace('people2item.html');
-  if (localStorage.getItem("localItemDiccJ") === null) {
 
-  } else {
-      localStorage.setItem('localItemDiccJ', JSON.stringify({}));
-
-  }
 }
 
 function eliminar(elem){
@@ -92,7 +83,6 @@ function eliminar(elem){
     setPrices();
     localStorage.setItem('localItems', JSON.stringify(itemDicJ));
 }
-
 
 function setPrices(){
     var parent = document.getElementById("items");
@@ -119,4 +109,8 @@ function setPrices(){
     document.getElementById('propina').value = propina;
     document.getElementById('total').value = total;
 
+}
+
+function back(){
+    location.replace('index.html');
 }
