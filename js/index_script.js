@@ -1,7 +1,7 @@
 // VARIABLES
 var subtotal = 0;
 
-if (localStorage.getItem("localPeople") === null) {
+if (localStorage.getItem("localPeople") === null) { // revisa si existe y si no la inicializa
     var peopleDicJ = {};
 } else {
     var peopleDicJ = JSON.parse(localStorage.getItem('localPeople'));
@@ -9,7 +9,7 @@ if (localStorage.getItem("localPeople") === null) {
 }
 
 // FUNCIONES
-function setList(){
+function setList(){ // crea la lista si los valores ya existian
     for (var i = 0; i < Object.keys(peopleDicJ).length; i++) {
         p1 = Object.keys(peopleDicJ)[i];
         btn_name = "btn" + p1;
@@ -27,7 +27,7 @@ function setList(){
     }
 }
 
-function addpeople(){
+function addpeople(){ // agrega personas a la lista
     p1 = document.getElementById('newguy').value;
     document.getElementById('newguy').value = "";
     btn_name = "btn" + p1;
@@ -45,7 +45,7 @@ function addpeople(){
     updateLocalPeople();
 }
 
-function eliminar(elem){
+function eliminar(elem){  // elimina personas de la lista
     str = elem.id;
     list_id = "list" + str.substring(3, str.length);
     var parent = document.getElementById("lista");
@@ -54,16 +54,16 @@ function eliminar(elem){
     updateLocalPeople();
 }
 
-function funcfoto(){
+function funcfoto(){  // funcion para subir la foto de la cuenta
     alert('agregar foto');
 }
 
-function gotoCheck(){
+function gotoCheck(){ // va a la siguiente pagina
     updateLocalPeople();
     location.replace('check.html');
 }
 
-function updateLocalPeople(){
+function updateLocalPeople(){ // actualiza la lista de personas
     lista = document.querySelector('#lista');
     elementos = lista.children;
     console.log(elementos)
@@ -80,7 +80,7 @@ function updateLocalPeople(){
 }
 
 // JQUERY
-$(document).ready(function() {
+$(document).ready(function() {  // detecta cuando se clickea fuera del input o se da enter
     $("#newguy").change(function() {
         addpeople();
     });

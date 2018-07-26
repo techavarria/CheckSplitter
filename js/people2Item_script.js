@@ -12,7 +12,7 @@ CheckPeople();
 CheckItems();
 actualizarChecks();
 
-function startItemDiccJ(){
+function startItemDiccJ(){  // crea diccionario de items con personas por cada item
     for (i = 0; i < Object.keys(localItems).length; i++) {
         if (localItems[Object.keys(localItems)[i]][0] > 1) {
             for (j = 1; j < localItems[Object.keys(localItems)[i]][0] + 1; j++) {
@@ -33,7 +33,7 @@ function startItemDiccJ(){
     }
 }
 
-function CheckPeople() {
+function CheckPeople() {  // crea lista de checkboxs con los nombres de las personas
     d1 = document.getElementById('people');
     for (i = 0; i < Object.keys(localPeople).length; i++) {
         namePeople = Object.keys(localPeople)[i];
@@ -50,7 +50,7 @@ function CheckPeople() {
     }
 }
 
-function CheckItems() {
+function CheckItems() { // crea listbox con los items
     d1 = document.getElementById('items');
     for (i = 0; i < Object.keys(ItemDiccJ).length; i++) {
         nameItem = Object.keys(ItemDiccJ)[i];
@@ -59,7 +59,7 @@ function CheckItems() {
     }
 }
 
-function peopleChecked(element) {
+function peopleChecked(element) { // activa el campo del porcentaje de una persona, si se checkea su nombre
     numero_persona = element.id.split("_").slice(-1);
     id_texto = "idText_" + numero_persona;
     if (element.checked) {
@@ -69,7 +69,7 @@ function peopleChecked(element) {
     }
 }
 
-function actualizarChecks(){
+function actualizarChecks(){  // activa los checkboxs de las personas que corresponden al item que sale en el listbox de items
     x = document.getElementsByClassName("form-check-input")
     y = document.getElementsByClassName("texts")
     for (var i = 0; i < x.length; i++) {
@@ -85,7 +85,6 @@ function actualizarChecks(){
     peop = Object.keys(dicAux);
     porcen = Object.values(dicAux);
     for (var i = 0; i < peop.length; i++) {
-        console.log(peop[i])
         document.getElementsByName(peop[i])[0].checked = true;
         theID = document.getElementsByName(peop[i])[0].id;
 
@@ -96,8 +95,10 @@ function actualizarChecks(){
     }
 }
 
-function checkboxlist() {
+function checkboxlist() { // crea un diccionario con las personas y para cada persona los items que le corresponden, con su valor y porcentaje y el total a pagar
     DirPer = localPeople;
+    faltan_items = 0
+    porc_valido = 1
     for (i = 0; i < Object.keys(localPeople).length; i++) { //Por personas
         namePeople = Object.keys(localPeople)[i];
         AuxDic = {};
@@ -105,9 +106,15 @@ function checkboxlist() {
             nameProduct = Object.keys(ItemDiccJ)[j];
             ProdPrice = Object.values(ItemDiccJ)[j]["valor"];
             PeoDic = Object.values(ItemDiccJ)[j]["people"];
+            if (Object.keys(PeoDic).length == 0){
+              faltan_items = 1;
+            }
             for (k = 0; k < Object.keys(PeoDic).length; k++) { //Por personas de ese item
                 NomPorProd = Object.keys(PeoDic)[k];
                 PercPorProd = Object.values(PeoDic)[k];
+                if (PercPorProd < 0 || PercPorProd > 100){
+                  porc_valido = 0
+                }
                 if (namePeople == NomPorProd) {
                     AuxDic[nameProduct] = {"valor":(PercPorProd * ProdPrice * 1.1) / 100, "porcentaje": PercPorProd}
                     DirPer[namePeople] = {
@@ -118,34 +125,88 @@ function checkboxlist() {
             }
         }
     }
+    // Poner ejemplo
     localStorage.setItem('localDirPer', JSON.stringify(DirPer));
-    location.replace('item_per_person.html');
+    if (faltan_items == 1){
+      alert('Escoja personas para todos los items para poder continuar!')
+    } else {
+      if (porc_valido == 0){
+        alert('Hay algun porcentaje no valio')
+      } else {
+        SumaPorce_valida = true;
+        revisar_porcentajes();
+        if (SumaPorce_valida) {
+          location.replace('item_per_person.html');
+        } else{
+          alert('Haga que los porcentajes sumen el 100%')
+        }
+      }
+    }
     localStorage.setItem('localItemDiccJ', JSON.stringify(ItemDiccJ));
 }
 
-function back(){
+function back(){  // se devuelve a la pagina anterior
     location.replace('check.html');
 }
 
 
 // JQUERY
-$(document).ready(function() {
+$(document).ready(function() {  // detecta cuando hay un cambio en los checkboxs de las personas y actualiza el diccionario de las personas por item
     $("input").change(function() {
         var idChanged = event.target.id;
         var select = document.getElementById("items");
         var Producto = select.options[select.selectedIndex].value;
-        if (idChanged.indexOf("Text") >= 0) {
+        if (idChanged.indexOf("Text") >= 0) { // si se cambio el porcentaje
             var Porcentaje = document.getElementById(idChanged).value;
             numero_persona = idChanged.split("_").slice(-1);
             id_persona = "idCheck_" + numero_persona;
             Persona = document.getElementById(id_persona).name;
             ItemDiccJ[Producto]["people"][Persona] = Porcentaje;
+            if (Porcentaje < 0 || Porcentaje > 100) {
+              alert('Escriba un valor valido');
+            }
         } else {
             Persona = document.getElementById(idChanged).name;
         }
     });
 });
 
-$(".form-control.one").change(function() {
+$(".form-control.one").change(function() {  // atualiza las peronas cuando se cambia de item en la listbox
     actualizarChecks();
 });
+
+function revisar_porcentajes(){
+  for (i = 0; i < Object.keys(ItemDiccJ).length; i++) { //Por item
+    SumaPorce = 0;
+    item = Object.keys(ItemDiccJ)[i];
+    Dic_item = ItemDiccJ[item]
+    Dic_per_item = Dic_item["people"]
+    long_dic_per_item = Object.keys(Dic_per_item).length
+    for (j = 0; j < long_dic_per_item; j++) {
+      SumaPorce = parseInt(Object.values(Dic_per_item)[j]) + SumaPorce;
+    }
+    if (SumaPorce != 100) {
+      SumaPorce_valida = false;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//

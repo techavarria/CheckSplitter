@@ -6,7 +6,7 @@ DirP = JSON.parse(DirPer)
 listBoxPersonas();
 UpdateTable();
 
-function listBoxPersonas() {
+function listBoxPersonas() {  // crea listbox de personas
     d1 = document.getElementById('id_personas');
     for (i = 0; i < Object.keys(DirP).length; i++) {
         nameItem = Object.keys(DirP)[i];
@@ -15,35 +15,56 @@ function listBoxPersonas() {
     }
 }
 
-function UpdateTable() {
+function UpdateTable() {  // crea tabla con los items (su porcentaje y valor a pagar) para cada persona
     d1 = document.getElementById('tabla');
     var select = document.getElementById("id_personas");
     var Producto = select.options[select.selectedIndex].value;
-    dicAux = DirP[Producto]["items"];
-    itm = Object.keys(dicAux);
-    html_code = '';
-    for (var  i = 0;  i  < itm.length;  i++) {
-        pric = Object.values(dicAux)[i].valor;
-        perc = Object.values(dicAux)[i].porcentaje;
-        html_code = html_code + `
-    <tr>
-      <th scope="row">${i+1}</th>
-      <td>${itm[i]}</td>
-      <td>${pric}</td>
-      <td>${perc}</td>
-    </tr>
-    `;
+    if (DirP[Producto] == null) {
+      html_code = `
+      <tr>
+      </tr>
+      `;
+      d1.innerHTML = html_code;
+      html_code = '';
+      alert('no tiene productos')
+    } else {
+      dicAux = DirP[Producto]["items"];
+      itm = Object.keys(dicAux);
+      html_code = '';
+      total_price = 0;
+      for (var  i = 0;  i  < itm.length;  i++) {
+          pric = Object.values(dicAux)[i].valor;
+          perc = Object.values(dicAux)[i].porcentaje;
+          total_price = total_price + parseInt(pric);
+          html_code = html_code + `
+      <tr>
+        <th scope="row">${i+1}</th>
+        <td>${itm[i]}</td>
+        <td>${pric}</td>
+        <td>${perc}</td>
+      </tr>
+      `;
+      }
+      html_code = html_code + `
+      <tr>
+      <th scope="row">${itm.length+1}</th>
+      <td>TOTAL</td>
+      <td>${total_price}</td>
+      <td>-</td>
+      </tr>
+      `;
+      d1.innerHTML = html_code;
+      html_code = '';
+
     }
-    d1.innerHTML = html_code;
-    html_code = '';
 }
 
-function back(){
+function back(){  // se devuelve a la pagina anterior
     location.replace("people2item.html")
 }
 
 // JQUERY
-$("#id_personas").change(function() {
+$("#id_personas").change(function() { // detecta cuando se elige una persona de la listbox y actualiza la tabla de los item por esa persona
     var select = document.getElementById("id_personas");
     var Producto = select.options[select.selectedIndex].value;
     UpdateTable();

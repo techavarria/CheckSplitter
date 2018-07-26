@@ -3,7 +3,7 @@ var subtotal = 0;
 var itemDicJ = {};
 var localPeople = localStorage.getItem('localPeople');
 
-if (localStorage.getItem("localItems") === null) {
+if (localStorage.getItem("localItems") === null) {  // revisa si existe y si no la inicializa
     var itemDicJ = {};
 } else {
     var itemDicJ = JSON.parse(localStorage.getItem('localItems'));
@@ -12,7 +12,7 @@ if (localStorage.getItem("localItems") === null) {
 }
 
 // FUNCIONES
-function setTable(){
+function setTable(){  // crea la lista de la cuenta si la variable ya existia
     for (var i = 0; i < Object.keys(itemDicJ).length; i++) {
         i1 = Object.keys(itemDicJ)[i];
         i2 = Object.values(itemDicJ)[i][0];
@@ -32,7 +32,7 @@ function setTable(){
     }
 }
 
-function additem(){
+function additem(){ // agrega filas a la lista de la cuenta
   i1 = document.getElementById('newitem').value;
   i2 = parseInt(document.getElementById('newamount').value);
   i3 = parseInt(document.getElementById('newprice').value);
@@ -56,12 +56,12 @@ function additem(){
   localStorage.setItem('localItems', JSON.stringify(itemDicJ));
 }
 
-function gotoPeople(){
+function gotoPeople(){  // Guarda la variable y pasa a la siguiente pagina
   localStorage.setItem('localItems', JSON.stringify(itemDicJ));
   location.replace('people2item.html');
 }
 
-function eliminar(elem){
+function eliminar(elem){  // Elimina item de la lista
     str = elem.id;
     item_id = "item_" + str.substring(4, str.length);
     console.log(item_id)
@@ -72,7 +72,7 @@ function eliminar(elem){
     localStorage.setItem('localItems', JSON.stringify(itemDicJ));
 }
 
-function setPrices(){
+function setPrices(){ // actualiza los totales de la cuenta
     var parent = document.getElementById("items");
     console.log(parent.children.length)
     subtotal = 0;
@@ -96,6 +96,6 @@ function setPrices(){
     document.getElementById('total').value = total;
 }
 
-function back(){
+function back(){  // se devuelve a la pagina anterior
     location.replace('index.html');
 }
