@@ -66,16 +66,13 @@ function gotoCheck(){ // va a la siguiente pagina
 function updateLocalPeople(){ // actualiza la lista de personas
     lista = document.querySelector('#lista');
     elementos = lista.children;
-    console.log(elementos)
     var i;
     var lista_personas = [];
     peopleDicJ = {}
     for (i = 0; i < elementos.length; i++) {
         elemento = elementos[i].id
         peopleDicJ[elemento.substring(4,elemento.length)] = null;
-        console.log(peopleDicJ)
     }
-    console.log(peopleDicJ)
     localStorage.setItem('localPeople', JSON.stringify(peopleDicJ));
 }
 

@@ -64,7 +64,6 @@ function gotoPeople(){  // Guarda la variable y pasa a la siguiente pagina
 function eliminar(elem){  // Elimina item de la lista
     str = elem.id;
     item_id = "item_" + str.substring(4, str.length);
-    console.log(item_id)
     var parent = document.getElementById("items");
     var child = document.getElementById(item_id);
     parent.removeChild(child);
@@ -74,7 +73,6 @@ function eliminar(elem){  // Elimina item de la lista
 
 function setPrices(){ // actualiza los totales de la cuenta
     var parent = document.getElementById("items");
-    console.log(parent.children.length)
     subtotal = 0;
     itemDicJ = {};
     for (i = 0; i < parent.children.length; i++) {
@@ -84,7 +82,6 @@ function setPrices(){ // actualiza los totales de la cuenta
         itemDicJ[item] = [cantidad, precio];
         subtotal = subtotal + precio
     }
-    console.log(subtotal)
     ico = subtotal * 0.08;
     netototal = subtotal - ico;
     propina = netototal * 0.1;

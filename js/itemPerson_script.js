@@ -47,10 +47,10 @@ function UpdateTable() {  // crea tabla con los items (su porcentaje y valor a p
       }
       html_code = html_code + `
       <tr>
-      <th scope="row">${itm.length+1}</th>
-      <td>TOTAL</td>
-      <td>${total_price}</td>
-      <td>-</td>
+      <th scope="row">-</th>
+      <td><strong>TOTAL</strong></td>
+      <td><strong>${total_price}</strong></td>
+      <td><strong>-</strong></td>
       </tr>
       `;
       d1.innerHTML = html_code;
